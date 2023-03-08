@@ -9,9 +9,6 @@ router.use(cookieParser());
 require('../db/conn');
 const User = require('../model/userSchema');
 
-router.get('/', (req, res) => {
-    res.send('Hello World from server router.js');
-});
 
 router.post('/register', async (req, res) => {
 

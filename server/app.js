@@ -2,20 +2,27 @@ const express = require('express');
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 const app = express();
-const cookieparser = require('cookie-parser');  
+const cookieparser = require('cookie-parser');
 app.use(cookieparser());
+const path = require('path');
 
-dotenv.config({path:'./config.env'});
+dotenv.config({ path: './config.env' });
 
 require('./db/conn');
-app.use(express.json()); 
+app.use(express.json());
 // const User = require('./model/userSchema');
 
 // linked with router authorization file
 app.use(require('./router/auth'));
 
+app.use(express.static(path.join(__dirname, 'client/build')));
 
-const PORT = process.env.PORT; 
+app.get('*', function (req, res) {
+    res.sendFile(path.join(__dirname, "./client/build/index.html"));
+})
+
+
+const PORT = process.env.PORT || 5000;
 
 // const middleware = (req, res, next) => {
 //     console.log("Im middleware");
